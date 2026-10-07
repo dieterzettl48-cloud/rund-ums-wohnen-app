@@ -145,9 +145,46 @@ function tick(){
  timerId=setTimeout(tick,1000);
 }
 function leave(){
- clearTimeout(timerId);
- document.getElementById('runSite').textContent=selected+' · Baustelle verlassen';
-}
+
+  clearTimeout(timerId);
+
+  const box=document.createElement('div');
+
+  box.style.cssText='position:fixed;inset:0;background:#0008;z-index:9999;display:flex;align-items:flex-end;justify-content:center';
+
+  const sheet=document.createElement('div');
+
+  sheet.style.cssText='width:min(430px,100%);background:white;border-radius:22px 22px 0 0;padding:22px 18px 30px;font-family:-apple-system,BlinkMacSystemFont,sans-serif';
+
+  sheet.innerHTML=`
+
+    <h2 style="margin:0 0 6px;font-size:23px">Was möchtest du machen?</h2>
+
+    <p style="margin:0 0 14px;color:#68716b">Die Arbeitszeit wurde gestoppt.</p>
+
+    <button data-a="Feierabend" style="width:100%;padding:16px;margin:5px 0;border:1px solid #ddd;border-radius:14px;background:white;font-size:17px;font-weight:700">🏠 Feierabend</button>
+
+    <button data-a="Andere Baustelle" style="width:100%;padding:16px;margin:5px 0;border:1px solid #ddd;border-radius:14px;background:white;font-size:17px;font-weight:700">🏗️ Andere Baustelle</button>
+
+    <button data-a="Krank" style="width:100%;padding:16px;margin:5px 0;border:1px solid #ddd;border-radius:14px;background:white;font-size:17px;font-weight:700">🤒 Krank</button>
+
+    <button data-a="Lager / Material kaufen" style="width:100%;padding:16px;margin:5px 0;border:1px solid #ddd;border-radius:14px;background:white;font-size:17px;font-weight:700">📦 Lager / Material kaufen</button>
+
+  `;
+
+  box.appendChild(sheet);
+
+  document.body.appendChild(box);
+
+  sheet.querySelectorAll('button').forEach(btn=>{
+
+    btn.onclick=()=>{
+
+      const action=btn.dataset.a;
+
+      box.remove();
+
+      document.getElementById('runSite').textContent=selected+' · '+action;
 document.querySelectorAll('.act').forEach(b=>b.addEventListener('click',()=>{
  document.querySelectorAll('.act').forEach(x=>x.classList.remove('active'));
  b.classList.add('active');
